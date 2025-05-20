@@ -1,20 +1,18 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { getProducts } from "@/lib/api"
 
 interface ProductGridProps {
   featured?: boolean
   category?: string
   limit?: number
+  products?: Product[]
 }
 
-export default async function ProductGrid({ featured = false, category, limit = 8 }: ProductGridProps) {
-  const products = await getProducts({ featured, category, limit })
-
+export default function ProductGrid({ products }: ProductGridProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {products.map((product) => (
+      {products?.map((product) => (
         <Link key={product.id} href={`/products/${product.id}`}>
           <Card className="h-full overflow-hidden hover:shadow-md transition-shadow">
             <div className="aspect-square relative overflow-hidden">

@@ -1,7 +1,8 @@
-import { Suspense } from "react"
+import { Suspense, useEffect, useState } from "react"
 import ProductGrid from "@/components/product-grid"
 import ProductFilters from "@/components/product-filters"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useProducts } from "@/lib/hooks/useProducts"
 
 interface ProductsPageProps {
   searchParams: {
@@ -12,7 +13,19 @@ interface ProductsPageProps {
 }
 
 export default function ProductsPage({ searchParams }: ProductsPageProps) {
-  const { category, price, sort } = searchParams
+  const { category } = searchParams
+  const { getAllProducts } = useProducts()
+
+  const [products, setProducts] = useState<Product[]>([])
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const products = await getAllProducts({ category })
+      setProducts(products)
+      console.log(products)
+    }
+    fetchProducts()
+  }, [category])
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -23,7 +36,7 @@ export default function ProductsPage({ searchParams }: ProductsPageProps) {
 
         <div className="space-y-6">
           <Suspense fallback={<ProductGridSkeleton />}>
-            <ProductGrid category={category} />
+            <ProductGrid category={category} products={products} />
           </Suspense>
         </div>
       </div>

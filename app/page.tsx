@@ -1,9 +1,27 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ShoppingBag } from "lucide-react"
 import ProductGrid from "@/components/product-grid"
+import { useProducts } from "@/lib/hooks/useProducts"
+import { useEffect } from "react"
+import { useState } from "react"
 
-export default async function Home() {
+export default function Home() {
+  const { getAllProducts } = useProducts()
+
+  const [products, setProducts] = useState<Product[]>([])
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const products = await getAllProducts({ featured: true })
+      setProducts(products)
+      console.log(products)
+    }
+    fetchProducts()
+  }, [])
+
   return (
     <div className="container mx-auto px-4 py-8">
       <section className="py-12 space-y-6">
@@ -24,7 +42,7 @@ export default async function Home() {
 
       <section className="py-12">
         <h2 className="text-2xl font-bold mb-8">Featured Products</h2>
-        <ProductGrid featured={true} />
+        <ProductGrid products={products} />
       </section>
 
       <section className="py-12 bg-muted rounded-lg p-8">
