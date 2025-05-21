@@ -50,6 +50,23 @@ declare global {
     name: string
     // Add other user fields as needed
   }
+
+  interface Cart {
+    id: string
+    items: CartItem[]
+    total: number
+    createdAt: string
+    updatedAt: string
+  }
+
+  interface CartItem {
+    id: string
+    name: string
+    price: number
+    quantity: number
+    image: string
+    variant: string
+  }
 }
 
 // This export is needed to make the file a module

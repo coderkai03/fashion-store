@@ -117,34 +117,12 @@ export default function ProductPage() {
       <Tabs defaultValue="details" className="mb-12">
         <TabsList>
           <TabsTrigger value="details">Product Details</TabsTrigger>
-          <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
         </TabsList>
         <TabsContent value="details" className="p-4">
           <div className="prose max-w-none">
             <p>
               {productResponse.details ||
                 "This premium product is crafted with high-quality materials to ensure comfort and durability. The design features a modern silhouette that's both stylish and functional for everyday wear."}
-            </p>
-            <ul>
-              <li>Premium quality materials</li>
-              <li>Comfortable fit</li>
-              <li>Easy care instructions</li>
-              <li>Versatile styling options</li>
-            </ul>
-          </div>
-        </TabsContent>
-        <TabsContent value="shipping" className="p-4">
-          <div className="prose max-w-none">
-            <h3>Shipping Information</h3>
-            <p>
-              We offer free standard shipping on all orders over $50. Standard shipping typically takes 3-5 business
-              days.
-            </p>
-
-            <h3>Return Policy</h3>
-            <p>
-              We accept returns within 30 days of delivery. Items must be unworn, unwashed, and in their original
-              packaging with all tags attached.
             </p>
           </div>
         </TabsContent>
