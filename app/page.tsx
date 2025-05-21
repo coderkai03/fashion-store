@@ -11,13 +11,13 @@ import { useState } from "react"
 export default function Home() {
   const { getAllProducts } = useProducts()
 
-  const [products, setProducts] = useState<Product[]>([])
+  const [productResponse, setProductResponse] = useState<ProductResponse>()
 
   useEffect(() => {
     const fetchProducts = async () => {
       const products = await getAllProducts({ featured: true })
-      setProducts(products)
-      console.log(products)
+      setProductResponse(products)
+      console.log("Home page products", products.docs)
     }
     fetchProducts()
   }, [])
@@ -42,7 +42,7 @@ export default function Home() {
 
       <section className="py-12">
         <h2 className="text-2xl font-bold mb-8">Featured Products</h2>
-        <ProductGrid products={products} />
+        {productResponse && <ProductGrid products={productResponse.docs} />}
       </section>
 
       <section className="py-12 bg-muted rounded-lg p-8">

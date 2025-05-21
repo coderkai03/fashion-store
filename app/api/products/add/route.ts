@@ -20,6 +20,7 @@ export async function POST(request: Request) {
     const newProduct = await response.json()
     return NextResponse.json(newProduct, { status: 201 })
   } catch (error) {
+    console.log("error", error)
     return NextResponse.json(
       { error: 'Failed to add product' },
       { status: 500 }

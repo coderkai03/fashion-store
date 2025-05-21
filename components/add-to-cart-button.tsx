@@ -3,8 +3,8 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ShoppingCart, Check } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
 import { addToCart } from "@/lib/cart-actions"
+import { toast } from "sonner"
 
 interface AddToCartButtonProps {
   productId: string
@@ -14,28 +14,20 @@ interface AddToCartButtonProps {
 export default function AddToCartButton({ productId, className }: AddToCartButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [isAdded, setIsAdded] = useState(false)
-  const { toast } = useToast()
 
   const handleAddToCart = async () => {
     setIsLoading(true)
     try {
       await addToCart(productId)
       setIsAdded(true)
-      toast({
-        title: "Added to cart",
-        description: "This product has been added to your cart",
-      })
+      toast.success("Added to cart")
 
       // Reset button after 2 seconds
       setTimeout(() => {
         setIsAdded(false)
       }, 2000)
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Could not add to cart. Please try again.",
-        variant: "destructive",
-      })
+      toast.error("Could not add to cart. Please try again.\n\n" + error)
     } finally {
       setIsLoading(false)
     }

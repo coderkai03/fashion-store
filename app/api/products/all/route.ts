@@ -9,21 +9,18 @@ export async function GET(request: Request) {
 
     // Build query parameters for Payload
     const queryParams = new URLSearchParams()
-    // if (featured) queryParams.append('featured', featured)
-    // if (category) queryParams.append('category', category)
-    // if (limit) queryParams.append('limit', limit)
+    if (featured) queryParams.append('where[featured][equals]', featured)
+    if (category) queryParams.append('where[category][equals]', category)
+    if (limit) queryParams.append('limit', limit)
 
-    const url = `${process.env.PAYLOAD_API_URL}/api/media?where[alt][equals]=flash`
-    console.log(url)
-
-    const response = await fetch(url)
+    const response = await fetch(`${process.env.PAYLOAD_API_URL}/api/products?${queryParams.toString()}`)
 
     if (!response.ok) {
       throw new Error('Failed to fetch products')
     }
 
-    const products = await response.json()
-    return NextResponse.json(products)
+    const productResponse = await response.json() as ProductResponse
+    return NextResponse.json(productResponse)
   } catch (error) {
     console.error(error)
     return NextResponse.json(

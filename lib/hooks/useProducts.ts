@@ -1,26 +1,8 @@
 import { useCallback } from 'react'
 import { useApi } from './useApi'
 
-interface Product {
-  id: string
-  name: string
-  description: string
-  price: number
-  images: { url: string; alt: string }[]
-  tags?: string[]
-  details?: string
-  featured?: boolean
-  category?: string
-}
-
-interface ProductQueryParams {
-  featured?: boolean
-  category?: string
-  limit?: number
-}
-
 export function useProducts() {
-  const api = useApi<Product[]>()
+  const api = useApi<ProductResponse>()
   const singleProductApi = useApi<Product>()
 
   const getAllProducts = useCallback(async (params?: ProductQueryParams) => {

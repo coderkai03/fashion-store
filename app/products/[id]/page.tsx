@@ -1,23 +1,34 @@
+"use client"
+
 import Image from "next/image"
-import { notFound } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Heart } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { getProductById } from "@/lib/api"
-import ProductGrid from "@/components/product-grid"
+import { useProducts } from "@/lib/hooks/useProducts"
 import AddToCartButton from "@/components/add-to-cart-button"
+import React, { useState, useEffect } from "react"
+import { useParams } from "next/navigation"
 
-interface ProductPageProps {
-  params: {
-    id: string
-  }
-}
+export default function ProductPage() {
+  console.log("ProductPage")
+  const params = useParams()
+  const { id } = params
+  console.log("id", id)
+  const { getProductById } = useProducts()
+  
+  const [productResponse, setProductResponse] = useState<Product>()
 
-export default async function ProductPage({ params }: ProductPageProps) {
-  const product = await getProductById(params.id)
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const product = await getProductById(id as string)
+      console.log("Product", product)
+      setProductResponse(product)
+    }
+    fetchProduct()
+  }, [id])
 
-  if (!product) {
-    notFound()
+  if (!productResponse) {
+    return <div>Loading...</div>
   }
 
   return (
@@ -26,21 +37,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div className="space-y-4">
           <div className="aspect-square relative overflow-hidden rounded-lg">
             <Image
-              src={product.images[0]?.url || "/placeholder.svg?height=600&width=600"}
-              alt={product.name}
+              src={`http://localhost:3000${productResponse.images[0]?.upload?.url}` || "/placeholder.svg?height=600&width=600"}
+              alt={productResponse.name}
               fill
               className="object-cover"
               priority
             />
           </div>
 
-          {product.images.length > 1 && (
+          {productResponse.images.length > 1 && (
             <div className="grid grid-cols-4 gap-2">
-              {product.images.slice(1, 5).map((image, index) => (
+              {productResponse.images.slice(1, 5).map((image, index) => (
                 <div key={index} className="aspect-square relative overflow-hidden rounded-lg">
                   <Image
-                    src={image.url || "/placeholder.svg?height=150&width=150"}
-                    alt={`${product.name} - Image ${index + 2}`}
+                    src={`http://localhost:3000${image.upload?.url}` || "/placeholder.svg?height=150&width=150"}
+                    alt={`${productResponse.name} - Image ${index + 2}`}
                     fill
                     className="object-cover"
                   />
@@ -52,21 +63,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         <div className="space-y-6">
           <div>
-            <h1 className="text-3xl font-bold">{product.name}</h1>
-            <p className="text-2xl font-bold mt-2">${product.price.toFixed(2)}</p>
+            <h1 className="text-3xl font-bold">{productResponse.name}</h1>
+            <p className="text-2xl font-bold mt-2">${productResponse.price.toFixed(2)}</p>
           </div>
 
-          {product.tags && (
+          {productResponse.tags && (
             <div className="flex gap-2">
-              {product.tags.map((tag) => (
-                <span key={tag} className="bg-muted px-3 py-1 rounded-full text-sm">
-                  {tag}
+              {productResponse.tags.map((tag) => (
+                <span key={tag.tag} className="bg-muted px-3 py-1 rounded-full text-sm">
+                  {tag.tag}
                 </span>
               ))}
             </div>
           )}
 
-          <p className="text-muted-foreground">{product.description}</p>
+          <p className="text-muted-foreground">{productResponse.description}</p>
 
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -94,7 +105,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
 
             <div className="flex gap-4">
-              <AddToCartButton productId={product.id} className="flex-1" />
+              <AddToCartButton productId={productResponse.id} className="flex-1" />
               <Button variant="outline" size="icon">
                 <Heart className="h-5 w-5" />
               </Button>
@@ -111,7 +122,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <TabsContent value="details" className="p-4">
           <div className="prose max-w-none">
             <p>
-              {product.details ||
+              {productResponse.details ||
                 "This premium product is crafted with high-quality materials to ensure comfort and durability. The design features a modern silhouette that's both stylish and functional for everyday wear."}
             </p>
             <ul>
@@ -139,10 +150,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </TabsContent>
       </Tabs>
 
-      <section className="mb-12">
+      {/* <section className="mb-12">
         <h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
-        <ProductGrid limit={4} />
-      </section>
+        <ProductGrid limit={4} products={productResponse.docs} />
+      </section> */}
     </div>
   )
 }
