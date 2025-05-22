@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
         protocol: "http",
         port: "3000",
       },
+      {
+        hostname: "payload-test-gold.vercel.app",
+        protocol: "https",
+      },
     ],
   },
 };

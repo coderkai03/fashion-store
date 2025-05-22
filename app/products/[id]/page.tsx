@@ -37,7 +37,7 @@ export default function ProductPage() {
         <div className="space-y-4">
           <div className="aspect-square relative overflow-hidden rounded-lg">
             <Image
-              src={`http://localhost:3000${productResponse.images[0]?.upload?.url}` || "/placeholder.svg?height=600&width=600"}
+              src={`${process.env.NEXT_PUBLIC_PAYLOAD_API_URL}${productResponse.images[0]?.upload?.url}` || "/placeholder.svg?height=600&width=600"}
               alt={productResponse.name}
               fill
               className="object-cover"
@@ -50,7 +50,7 @@ export default function ProductPage() {
               {productResponse.images.slice(1, 5).map((image, index) => (
                 <div key={index} className="aspect-square relative overflow-hidden rounded-lg">
                   <Image
-                    src={`http://localhost:3000${image.upload?.url}` || "/placeholder.svg?height=150&width=150"}
+                    src={`${process.env.NEXT_PUBLIC_PAYLOAD_API_URL}${image.upload?.url}` || "/placeholder.svg?height=150&width=150"}
                     alt={`${productResponse.name} - Image ${index + 2}`}
                     fill
                     className="object-cover"
