@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     if (category) queryParams.append('where[category][equals]', category)
     if (limit) queryParams.append('limit', limit)
 
-    const response = await fetch(`${process.env.PAYLOAD_API_URL}/api/products?${queryParams.toString()}`)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_PAYLOAD_API_URL}/api/products?${queryParams.toString()}`)
 
     if (!response.ok) {
       throw new Error('Failed to fetch products')

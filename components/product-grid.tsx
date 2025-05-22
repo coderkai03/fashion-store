@@ -10,6 +10,7 @@ interface ProductGridProps {
 }
 
 export default function ProductGrid({ products }: ProductGridProps) {
+  console.log(`${process.env.NEXT_PUBLIC_PAYLOAD_API_URL}${products[0].images[0]?.upload?.url}`)
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {products.map((product) => (
@@ -17,7 +18,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
           <Card className="h-full overflow-hidden hover:shadow-md transition-shadow">
             <div className="aspect-square relative overflow-hidden">
               <Image
-                src={`http://localhost:3000${product.images[0]?.upload?.url}` || "/placeholder.svg?height=400&width=400"}
+                src={`${process.env.NEXT_PUBLIC_PAYLOAD_API_URL}${product.images[0]?.upload?.url}` || "/placeholder.svg?height=400&width=400"}
                 alt={product.name}
                 fill
                 className="object-cover transition-transform hover:scale-105"

@@ -5,9 +5,9 @@ export async function GET(request: Request) {
     const url = new URL(request.url)
     const id = url.pathname.split('/').pop()
 
-    console.log("url", `${process.env.PAYLOAD_API_URL}/api/products/${id}`)
+    console.log("url", `${process.env.NEXT_PUBLIC_PAYLOAD_API_URL}/api/products/${id}`)
 
-    const response = await fetch(`${process.env.PAYLOAD_API_URL}/api/products/${id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_PAYLOAD_API_URL}/api/products/${id}`, {
       headers: {
         'Authorization': `JWT ${process.env.PAYLOAD_API_KEY}`,
         'Content-Type': 'application/json',

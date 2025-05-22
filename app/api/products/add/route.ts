@@ -4,7 +4,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
 
-    const response = await fetch(`${process.env.PAYLOAD_API_URL}/api/products`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_PAYLOAD_API_URL}/api/products`, {
       method: 'POST',
       headers: {
         'Authorization': `JWT ${process.env.PAYLOAD_API_KEY}`,

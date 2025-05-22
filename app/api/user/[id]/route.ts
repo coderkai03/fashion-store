@@ -5,7 +5,7 @@ export async function GET(request: Request) {
     const url = new URL(request.url)
     const id = url.pathname.split('/').pop()
 
-    const response = await fetch(`${process.env.PAYLOAD_API_URL}/api/users/${id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_PAYLOAD_API_URL}/api/users/${id}`, {
       headers: {
         'Authorization': `JWT ${process.env.PAYLOAD_API_KEY}`,
         'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export async function PUT(request: Request) {
 
     const body = await request.json()
 
-    const response = await fetch(`${process.env.PAYLOAD_API_URL}/api/users/${id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_PAYLOAD_API_URL}/api/users/${id}`, {
       method: 'PUT',
       headers: {
         'Authorization': `JWT ${process.env.PAYLOAD_API_KEY}`,
