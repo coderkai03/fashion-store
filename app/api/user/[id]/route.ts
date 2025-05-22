@@ -25,6 +25,7 @@ export async function GET(
     const user = await response.json()
     return NextResponse.json(user)
   } catch (error) {
+    console.error('Error fetching user:', error)
     return NextResponse.json(
       { error: 'Failed to fetch user' },
       { status: 500 }
@@ -55,6 +56,7 @@ export async function PUT(
     const updatedUser = await response.json()
     return NextResponse.json(updatedUser)
   } catch (error) {
+    console.error('Error updating user:', error)
     return NextResponse.json(
       { error: 'Failed to update user' },
       { status: 500 }

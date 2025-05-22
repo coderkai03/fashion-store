@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useUser } from '@/lib/api'
+import { useUser } from '@/lib/hooks/useUser'
 
 interface UserProfileProps {
   id: string
@@ -11,22 +11,22 @@ export function UserProfile({ id }: UserProfileProps) {
     loading, 
     error, 
     getUser, 
-    updateUser 
+    // updateUser 
   } = useUser()
 
   useEffect(() => {
     getUser(id)
   }, [getUser, id])
 
-  const handleUpdate = async (userData: Partial<User>) => {
-    try {
-      await updateUser(id, userData)
-      // You might want to show a success message here
-    } catch (error) {
-      // Handle error appropriately
-      console.error('Failed to update user:', error)
-    }
-  }
+  // const handleUpdate = async (userData: Partial<User>) => {
+  //   try {
+  //     await updateUser(id, userData)
+  //     // You might want to show a success message here
+  //   } catch (error) {
+  //     // Handle error appropriately
+  //     console.error('Failed to update user:', error)
+  //   }
+  // }
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error: {error}</div>
