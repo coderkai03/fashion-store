@@ -5,24 +5,18 @@ import ProductGrid from "@/components/product-grid"
 import ProductFilters from "@/components/product-filters"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useProducts } from "@/lib/hooks/useProducts"
+import { useSearchParams } from "next/navigation"
 
-interface ProductsPageProps {
-  searchParams: {
-    category?: string
-    price?: string
-    sort?: string
-  }
-}
-
-export default function ProductsPage({ searchParams }: ProductsPageProps) {
-  const { category } = searchParams
+export default function ProductsPage() {
+  const searchParams = useSearchParams()
+  const category = searchParams.get("category")
   const { getAllProducts } = useProducts()
 
   const [products, setProducts] = useState<Product[]>([])
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const products = await getAllProducts({ category })
+      const products = await getAllProducts({ category: category || undefined })
       setProducts(products)
       console.log(products)
     }
@@ -38,7 +32,7 @@ export default function ProductsPage({ searchParams }: ProductsPageProps) {
 
         <div className="space-y-6">
           <Suspense fallback={<ProductGridSkeleton />}>
-            <ProductGrid category={category} products={products} />
+            <ProductGrid category={category || undefined} products={products} />
           </Suspense>
         </div>
       </div>
