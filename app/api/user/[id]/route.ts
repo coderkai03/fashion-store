@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: Request) {
   try {
-    const response = await fetch(`${process.env.PAYLOAD_API_URL}/api/users/${params.id}`, {
+    const url = new URL(request.url)
+    const id = url.pathname.split('/').pop()
+
+    const response = await fetch(`${process.env.PAYLOAD_API_URL}/api/users/${id}`, {
       headers: {
         'Authorization': `JWT ${process.env.PAYLOAD_API_KEY}`,
         'Content-Type': 'application/json',
