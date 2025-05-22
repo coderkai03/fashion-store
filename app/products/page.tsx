@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useProducts } from "@/lib/hooks/useProducts"
 import { useSearchParams } from "next/navigation"
 
-export default function ProductsPage() {
+function ProductsPageContent() {
   const searchParams = useSearchParams()
   const category = searchParams.get("category")
   const { getAllProducts } = useProducts()
@@ -37,6 +37,14 @@ export default function ProductsPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductsPageContent />
+    </Suspense>
   )
 }
 
