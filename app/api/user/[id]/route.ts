@@ -33,14 +33,14 @@ export async function GET(request: Request) {
   }
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: Request) {
   try {
+    const url = new URL(request.url)
+    const id = url.pathname.split('/').pop()
+
     const body = await request.json()
 
-    const response = await fetch(`${process.env.PAYLOAD_API_URL}/api/users/${params.id}`, {
+    const response = await fetch(`${process.env.PAYLOAD_API_URL}/api/users/${id}`, {
       method: 'PUT',
       headers: {
         'Authorization': `JWT ${process.env.PAYLOAD_API_KEY}`,
